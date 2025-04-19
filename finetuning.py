@@ -127,7 +127,7 @@ def main():
             per_device_train_batch_size=2, # Keep small batch size
             gradient_accumulation_steps=4, # Effective batch size 8
             warmup_steps=10, # Slightly more warmup
-            max_steps = 300, # Use max_steps for quick testing, comment out for full run
+            max_steps = 100, # Use max_steps for quick testing, comment out for full run
             num_train_epochs=1, # Use num_train_epochs for full run
             learning_rate=2e-4,
             fp16=not is_bfloat16_supported(),
@@ -242,7 +242,7 @@ def main():
     )
 
     messages = [
-        {"role": "user", "content": "请简单介绍一下人工智能的发展历史。"},
+        {"role": "user", "content": "What is the difference between k8s and docker-compose?"},
     ]
     inputs = tokenizer.apply_chat_template(
         messages,
