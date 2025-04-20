@@ -3,3 +3,5 @@ llama.cpp
 outputs
 unsloth_compiled_cache
 venv
+model_cache
+llama.cpp

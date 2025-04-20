@@ -86,7 +86,7 @@ def main():
     
     # 关键参数：最大序列长度
     # 增加到1536，接近模型最大值但保留安全余量
-    max_seq_length = 1536  
+    max_seq_length = 2000  
     
     output_dir = "outputs"
     os.makedirs(output_dir, exist_ok=True)
@@ -109,10 +109,10 @@ def main():
     logger.info("添加 LoRA 适配器...")
     model = FastLanguageModel.get_peft_model(
         model,
-        r=16,  # 提高到16，增强模型学习能力
+        r=32,  # 提高到32，增强模型学习能力
         target_modules=["q_proj", "k_proj", "v_proj", "o_proj",
                         "gate_proj", "up_proj", "down_proj",],
-        lora_alpha=32,  # 提高到32
+        lora_alpha=64,  # 提高到64
         lora_dropout=0,
         bias="none",
         use_gradient_checkpointing="unsloth",
@@ -130,7 +130,7 @@ def main():
     
     # 加载数据集（增加比例）
     logger.info("加载和处理数据集...")
-    dataset = load_dataset("mlabonne/FineTome-100k", split="train[:20%]")  # 使用更多数据
+    dataset = load_dataset("mlabonne/FineTome-100k", split="train[:60%]")  # 使用更多数据
     
     try:
         dataset = standardize_sharegpt(dataset)
@@ -196,7 +196,7 @@ def main():
     
     # 配置训练参数（提高训练步数和学习率）
     training_args = TrainingArguments(
-        per_device_train_batch_size=2,  # 提高到2
+        per_device_train_batch_size=4,  # 提高到2
         gradient_accumulation_steps=4,  # 调整梯度累积
         warmup_steps=100,               # 增加预热步数
         max_steps=1000,                 # 增加训练步数
